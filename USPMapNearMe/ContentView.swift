@@ -15,11 +15,11 @@ struct ContentView: View {
     @State private var position: MapCameraPosition = .userLocation(fallback: .automatic)
     @State private var isSearching: Bool = false
     @State private var mapItems: [MKMapItem] = []
+    @State private var visibleRegion: MKCoordinateRegion?
     
     private func search() async {
         do {
-            mapItems = try await performSearch(searchTerm: query, visibleRegion: locationManager.region)
-            print(mapItems)
+            mapItems = try await performSearch(searchTerm: query, visibleRegion: visibleRegion)
             isSearching = false
         } catch {
             mapItems = []
@@ -31,6 +31,10 @@ struct ContentView: View {
     var body: some View {
         ZStack {
             Map(position: $position) {
+                ForEach(mapItems, id: \.self) { mapItem in
+                    Marker(item: mapItem)
+                }
+                
                 UserAnnotation()
             }
             .onChange(of: locationManager.region, {
@@ -54,6 +58,9 @@ struct ContentView: View {
                 .interactiveDismissDisabled()
                 .presentationBackgroundInteraction(.enabled(upThrough: .medium))
             }
+        }
+        .onMapCameraChange { context in
+            visibleRegion = context.region
         }
         .task(id: isSearching, {
             if isSearching {
