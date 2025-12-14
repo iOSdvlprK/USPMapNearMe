@@ -9,7 +9,7 @@ import SwiftUI
 import MapKit
 
 struct ContentView: View {
-    @State private var query: String = "Coffee"
+    @State private var query: String = ""
     @State private var selectedDetent: PresentationDetent = .fraction(0.15)
     @State private var locationManager = LocationManager.shared
     @State private var position: MapCameraPosition = .userLocation(fallback: .automatic)
@@ -50,6 +50,11 @@ struct ContentView: View {
                         .onSubmit {
                             isSearching = true
                         }
+                    
+                    SearchOptionsView { searchTerm in
+                        query = searchTerm
+                        isSearching = true
+                    }
                     
                     List(mapItems, id: \.self) { mapItem in
                         PlaceView(mapItem: mapItem)
