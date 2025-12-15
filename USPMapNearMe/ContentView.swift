@@ -44,21 +44,9 @@ struct ContentView: View {
             })
             .sheet(isPresented: .constant(true)) {
                 VStack {
-                    TextField("Search", text: $query)
-                        .textFieldStyle(.roundedBorder)
-                        .padding()
-                        .onSubmit {
-                            isSearching = true
-                        }
+                    SearchBarView(search: $query, isSearching: $isSearching)
                     
-                    SearchOptionsView { searchTerm in
-                        query = searchTerm
-                        isSearching = true
-                    }
-                    
-                    List(mapItems, id: \.self) { mapItem in
-                        PlaceView(mapItem: mapItem)
-                    }
+                    PlaceListView(mapItems: mapItems)
                     
                     Spacer()
                 }
