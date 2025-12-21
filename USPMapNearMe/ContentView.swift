@@ -23,6 +23,7 @@ struct ContentView: View {
     @State private var visibleRegion: MKCoordinateRegion?
     @State private var selectedMapItem: MKMapItem?
     @State private var displayMode: DisplayMode = .list
+    @State private var lookAroundScene: MKLookAroundScene?
     
     private func search() async {
         do {
@@ -58,6 +59,14 @@ struct ContentView: View {
                     case .detail:
                         SelectedPlaceDetailView(mapItem: $selectedMapItem)
                             .padding()
+                        LookAroundPreview(initialScene: lookAroundScene)
+                            .task(id: selectedMapItem) {
+                                lookAroundScene = nil
+                                if let selectedMapItem {
+                                    let request = MKLookAroundSceneRequest(mapItem: selectedMapItem)
+                                    lookAroundScene = try? await request.scene
+                                }
+                            }
                     }
                     
                     Spacer()
