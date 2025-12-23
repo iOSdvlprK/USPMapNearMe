@@ -76,7 +76,10 @@ struct ContentView: View {
                     case .detail:
                         SelectedPlaceDetailView(mapItem: $selectedMapItem)
                             .padding()
-                        LookAroundPreview(initialScene: lookAroundScene)
+                        
+                        if selectedDetent == .medium || selectedDetent == .large {
+                            LookAroundPreview(initialScene: lookAroundScene)
+                        }
                     }
                     
                     Spacer()
