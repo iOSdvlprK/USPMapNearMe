@@ -24,7 +24,7 @@ struct ActionButtons: View {
             .buttonStyle(.bordered)
             
             Button(action: {
-                
+                MKMapItem.openMaps(with: [mapItem])
             }, label: {
                 HStack {
                     Image(systemName: "car.circle.fill")
@@ -33,6 +33,8 @@ struct ActionButtons: View {
             })
             .buttonStyle(.bordered)
             .tint(.green)
+            
+            Spacer()
         }
     }
 }
