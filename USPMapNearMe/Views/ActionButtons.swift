@@ -14,7 +14,10 @@ struct ActionButtons: View {
     var body: some View {
         HStack {
             Button(action: {
-                
+                if let phone = mapItem.phoneNumber {
+                    let numericPhoneNumber = phone.components(separatedBy: CharacterSet.decimalDigits.inverted).joined()
+                    makeCall(phone: numericPhoneNumber)
+                }
             }, label: {
                 HStack {
                     Image(systemName: "phone.fill")
