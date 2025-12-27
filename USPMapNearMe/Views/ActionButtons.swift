@@ -13,18 +13,18 @@ struct ActionButtons: View {
     
     var body: some View {
         HStack {
-            Button(action: {
-                if let phone = mapItem.phoneNumber {
+            if let phone = mapItem.phoneNumber {
+                Button(action: {
                     let numericPhoneNumber = phone.components(separatedBy: CharacterSet.decimalDigits.inverted).joined()
                     makeCall(phone: numericPhoneNumber)
-                }
-            }, label: {
-                HStack {
-                    Image(systemName: "phone.fill")
-                    Text("Call")
-                }
-            })
-            .buttonStyle(.bordered)
+                }, label: {
+                    HStack {
+                        Image(systemName: "phone.fill")
+                        Text("Call")
+                    }
+                })
+                .buttonStyle(.bordered)
+            }
             
             Button(action: {
                 MKMapItem.openMaps(with: [mapItem])
